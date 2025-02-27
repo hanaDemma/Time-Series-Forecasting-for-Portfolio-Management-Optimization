@@ -6,4 +6,5 @@ import numpy as np # type: ignore
 def preprocess_data(data,ticker):
     print(f"{ticker} Missing values:\n{data.isnull().sum()}")
     data.reset_index(inplace=True)
+    
     return data
