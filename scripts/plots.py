@@ -53,3 +53,25 @@ def dailyReturn(stockData,tickers):
         plt.legend()
         plt.xlim(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-01-31"))
         plt.show()
+
+
+
+def rollingAvgAndStd(stockData,tickers):
+    # Calculate rolling averages and standard deviations
+    for data, ticker in zip(stockData,tickers):
+        data['Rolling_Mean'] = data['Close'].rolling(window=30).mean()
+        data['Rolling_Std'] = data['Close'].rolling(window=30).std()
+        data['Rolling_Mean'].fillna(0, inplace=True) 
+        data['Rolling_Std'].fillna(0, inplace=True)
+        
+        # Plot rolling mean and std
+        plt.figure(figsize=(12, 6))
+        plt.plot(data['Date'], data['Close'], label='Close Price')
+        plt.plot(data['Date'], data['Rolling_Mean'], label='30-Day Rolling Mean')
+        plt.plot(data['Date'], data['Rolling_Std'], label='30-Day Rolling Std', linestyle='--')
+        plt.title(f'{ticker} Volatility with Rolling Mean & Standard Deviation')
+        plt.xlabel('Date')
+        plt.ylabel('Price / Volatility')
+        plt.legend()
+        plt.xlim(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-01-31"))
+        plt.show()
