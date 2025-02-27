@@ -3,11 +3,7 @@ import matplotlib.pyplot as plt # type: ignore
 import seaborn as sns # type: ignore
 import numpy as np # type: ignore
 import yfinance as yf # type: ignore
-from statsmodels.tsa.seasonal import seasonal_decompose # type: ignore
-import math
-from matplotlib.dates import DateFormatter
-import scipy.optimize as sco
-from scipy.stats import norm
+
 
 def loadData():
     tickers = ["TSLA", "BND", "SPY"]
