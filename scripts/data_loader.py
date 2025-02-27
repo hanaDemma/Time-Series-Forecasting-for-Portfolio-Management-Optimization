@@ -29,3 +29,8 @@ def loadData():
 
     return data_frames["TSLA"], data_frames["BND"], data_frames["SPY"]
 
+def format_date(data):
+    data = data.reset_index()
+    data['Date'] = pd.to_datetime(data['Date'])
+    data = data.set_index('Date')
+    return data
