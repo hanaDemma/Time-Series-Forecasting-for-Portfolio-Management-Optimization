@@ -1,8 +1,8 @@
 import pandas as pd  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import seaborn as sns  # type: ignore
-
 import matplotlib.pyplot as plt
+from scipy.stats import zscore
 import seaborn as sns
 import pandas as pd
 
@@ -75,3 +75,96 @@ def rollingAvgAndStd(stockData,tickers):
         plt.legend()
         plt.xlim(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-01-31"))
         plt.show()
+
+
+def detect_outliers(stockData, tickers):
+    """
+    Detects and plots outliers in Adjusted Close Price for each stock using Z-score.
+
+    Parameters:
+        stockData (list of DataFrames): List of stock price DataFrames (each with 'Date' and 'Adj Close' columns).
+        tickers (list of str): Corresponding stock ticker symbols.
+    """
+    for data, ticker in zip(stockData, tickers):
+        data = data.copy()  # Avoid modifying the original DataFrame
+        
+        # Ensure Date column exists and is set as index
+        if 'Date' in data.columns:
+            data['Date'] = pd.to_datetime(data['Date'])  # Convert to datetime if not already
+            data = data.set_index('Date')
+
+        # Compute Z-score
+        data['Z-Score'] = (data['Adj Close'] - data['Adj Close'].mean()) / data['Adj Close'].std()
+        outliers = data[data['Z-Score'].abs() > 3]  # Outliers: Z-score > 3 or < -3
+
+        # Plot Adjusted Close Price with outliers
+        plt.figure(figsize=(12, 6))
+        plt.plot(data.index, data['Adj Close'], label=f'{ticker} Adjusted Close Price', color='blue', linewidth=1.5)
+        plt.scatter(outliers.index, outliers['Adj Close'], color='red', label='Outliers', zorder=5)
+        plt.title(f'{ticker} Outliers in Adjusted Close Price', fontsize=14)
+        plt.xlabel('Date', fontsize=12)
+        plt.ylabel('Adjusted Close Price', fontsize=12)
+        plt.legend()
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        plt.show()
+
+        # Print Outliers DataFrame in requested format
+        print(f"\nOutliers for {ticker}:")
+        if outliers.empty:
+            print("Empty DataFrame\nColumns: [Price, Adj Close, Z-Score]\nIndex: []")
+        else:
+            formatted_outliers = outliers[['Adj Close', 'Z-Score']].copy()
+            formatted_outliers.index.name = "Date"
+            formatted_outliers.columns = ["Price", "Z-Score"]
+            formatted_outliers["Ticker"] = ticker
+            print(formatted_outliers)
+
+
+
+import numpy as np
+import pandas as pd
+
+def remove_outliers(stockData, tickers, threshold=3):
+    """
+    Detects and removes outliers in Adjusted Close Price using Z-score.
+
+    Parameters:
+        stockData (list of DataFrames): List of stock price DataFrames (each with 'Date' and 'Adj Close' columns).
+        tickers (list of str): Corresponding stock ticker symbols.
+        threshold (float): Z-score threshold for defining outliers (default is 3).
+
+    Returns:
+        list of DataFrames: Cleaned DataFrames with outliers removed.
+    """
+    cleaned_data = []
+
+    for data, ticker in zip(stockData, tickers):
+        data = data.copy()  # Avoid modifying the original DataFrame
+        
+        # Ensure 'Date' is set as index
+        if 'Date' in data.columns:
+            data['Date'] = pd.to_datetime(data['Date'])
+            data = data.set_index('Date')
+
+        # Compute Z-score
+        data['Z-Score'] = (data['Adj Close'] - data['Adj Close'].mean()) / data['Adj Close'].std()
+
+        # Identify outliers
+        outliers = data[np.abs(data['Z-Score']) > threshold]
+
+        # Remove outliers
+        data_cleaned = data[np.abs(data['Z-Score']) <= threshold].drop(columns=['Z-Score'])
+
+        # Store cleaned data
+        cleaned_data.append(data_cleaned)
+
+        # Print removed outliers
+        print(f"\nRemoved Outliers for {ticker}:")
+        if outliers.empty:
+            print("No outliers found.")
+        else:
+            print(outliers[['Adj Close', 'Z-Score']])
+
+    return cleaned_data
+
