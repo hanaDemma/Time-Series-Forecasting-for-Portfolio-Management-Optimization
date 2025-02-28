@@ -232,3 +232,36 @@ def timeSeriesDecomposition(stockData,tickers):
         plt.suptitle(f'{ticker} Time Series Decomposition')
         plt.xlim(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-01-31"))
         plt.show()
+
+
+
+def volatility_rolling(window_size,stockData,tickers):
+    # Analyze volatility for each asset
+    for data, ticker in zip(stockData,tickers):
+        # Calculate the rolling mean and standard deviation for the adjusted close price
+        rolling_mean = data['Adj Close'].rolling(window=window_size).mean()
+        rolling_std = data['Adj Close'].rolling(window=window_size).std()
+
+        # Plot the adjusted close price along with rolling mean and rolling standard deviation
+        plt.figure(figsize=(12, 8))
+
+        # Plot the adjusted close price
+        plt.subplot(311)
+        plt.plot(data['Adj Close'], label=f'{ticker} Adjusted Close', color='black')
+        plt.title(f'{ticker} - Adjusted Close Price')
+        plt.legend()
+
+        # Plot the rolling mean
+        plt.subplot(312)
+        plt.plot(rolling_mean, label=f'{ticker} {window_size}-Day Rolling Mean', color='light blue')
+        plt.title(f'{ticker} - {window_size}-Day Rolling Mean')
+        plt.legend()
+
+        # Plot the rolling standard deviation
+        plt.subplot(313)
+        plt.plot(rolling_std, label=f'{ticker} {window_size}-Day Rolling Std Dev', color='red')
+        plt.title(f'{ticker} - {window_size}-Day Rolling Std Dev (Volatility)')
+        plt.legend()
+
+        plt.tight_layout()
+        plt.show()
