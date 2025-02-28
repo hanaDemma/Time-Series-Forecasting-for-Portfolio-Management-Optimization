@@ -253,7 +253,7 @@ def volatility_rolling(window_size,stockData,tickers):
 
         # Plot the rolling mean
         plt.subplot(312)
-        plt.plot(rolling_mean, label=f'{ticker} {window_size}-Day Rolling Mean', color='light blue')
+        plt.plot(rolling_mean, label=f'{ticker} {window_size}-Day Rolling Mean', color='blue')
         plt.title(f'{ticker} - {window_size}-Day Rolling Mean')
         plt.legend()
 
@@ -265,3 +265,51 @@ def volatility_rolling(window_size,stockData,tickers):
 
         plt.tight_layout()
         plt.show()
+
+
+
+def varAndSharpeRatio(stockData, tickers):
+    VaRs = {}  # Store VaR values
+    Sharpe_ratios = {}  # Store Sharpe Ratios
+
+    for data, ticker in zip(stockData, tickers):
+        if 'Daily_Return' not in data.columns:
+            print(f"Skipping {ticker}: 'Daily_Return' column not found.")
+            continue
+        
+        # ✅ Calculate VaR (5th percentile)
+        VaR = data['Daily_Return'].quantile(0.05)
+        VaRs[ticker] = VaR
+        
+        # ✅ Calculate Sharpe Ratio
+        mean_return = data['Daily_Return'].mean()
+        std_dev_return = data['Daily_Return'].std()
+        sharpe_ratio = mean_return / std_dev_return * np.sqrt(252)  # 252 trading days
+        Sharpe_ratios[ticker] = sharpe_ratio
+
+    # ✅ Create VaR Bar Chart
+    plt.figure(figsize=(8, 6))
+    plt.bar(VaRs.keys(), VaRs.values(), color='red')
+    plt.xlabel('Ticker')
+    plt.ylabel('VaR (Lower is Riskier)')
+    plt.title('Value at Risk (VaR) at 5% Confidence Level')
+    plt.grid(axis='y')
+    plt.show()
+
+    # ✅ Create Sharpe Ratio Bar Chart
+    plt.figure(figsize=(8, 6))
+    plt.bar(Sharpe_ratios.keys(), Sharpe_ratios.values(), color='purple')
+    plt.xlabel('Ticker')
+    plt.ylabel('Sharpe Ratio (Higher is Better)')
+    plt.title('Sharpe Ratios of Stocks')
+    plt.grid(axis='y')
+    plt.show()
+
+    # ✅ Print Values
+    print("\nValue at Risk (VaR) at 5% Confidence Level:")
+    for ticker, value in VaRs.items():
+        print(f"{ticker}: {value:.4f}")
+    
+    print("\nSharpe Ratios:")
+    for ticker, value in Sharpe_ratios.items():
+        print(f"{ticker}: {value:.4f}")
