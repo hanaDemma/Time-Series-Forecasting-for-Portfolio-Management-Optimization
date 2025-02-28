@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import zscore
 import seaborn as sns
 import pandas as pd
+import numpy as np
+from statsmodels.tsa.seasonal import seasonal_decompose # type: ignore
+
 
 def closePriceOverTime(stockData, tickers):
     """
@@ -122,8 +125,8 @@ def detect_outliers(stockData, tickers):
 
 
 
-import numpy as np
-import pandas as pd
+
+
 
 def remove_outliers(stockData, tickers, threshold=3):
     """
@@ -217,3 +220,15 @@ def plot_significant_anomalies(stockData,tickers):
         print(f"{ticker}Low Returns for:")
         print(low_returns[['Daily Return']])
         print("\n")
+
+
+    
+def timeSeriesDecomposition(stockData,tickers):
+    # Time Series Decomposition
+    for data, ticker in zip(stockData,tickers):
+        decomposition = seasonal_decompose(data['Close'], model='additive', period=252)
+        plt.figure(figsize=(12,6))
+        decomposition.plot()
+        plt.suptitle(f'{ticker} Time Series Decomposition')
+        plt.xlim(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-01-31"))
+        plt.show()
