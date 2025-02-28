@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project is part of a challenge for 10 Academy's Artificial Intelligence Mastery program aimed at optimizing portfolio management strategies for Guide Me in Finance (GMF) Investments. The objective is to use time series forecasting on historical financial data to enhance portfolio performance, reduce risk, and leverage market opportunities. This solution integrates financial data analysis, forecasting models, and portfolio optimization techniques to help GMF make data-driven investment decisions.
+This project is part of a challenge for 10 Academy's Artificial Intelligence Mastery program aimed at optimizing portfolio management strategies for Guide Me in Finance (GMF) Investments. The objective is to use time series forecasting on historical financial data to enhance portfolio performance, reduce risk, and leverage market opportunities. This solution integrates financial data analysis to help GMF make data-driven investment decisions.
 
 ## Business Objective
 
@@ -51,8 +51,7 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 
 - ✅ **Data Extraction**: Pulling historical financial data using the yFinance Python library.
 - 📈 **Exploratory Data Analysis (EDA)**: Analyzing trends, seasonality, volatility, and other key indicators.
-- 🕒 **Time Series Forecasting Models**: Building ARIMA, SARIMA, and LSTM models to predict future trends.
-- ⚛ **Portfolio Optimization**: Using forecasted data to rebalance a sample portfolio of assets.
+
 
 ## Technologies Used
 
