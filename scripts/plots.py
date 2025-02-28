@@ -189,3 +189,31 @@ def plot_daily_percentage(stockData, tickers):
         # Format the x-axis to show readable dates
         plt.xticks(rotation=45)  # Rotate labels for better readability
         plt.show()
+
+
+def plot_significant_anomalies(stockData,tickers):
+    threshold = 5  # 5% threshold for high/low returns
+
+    for data, ticker in zip(stockData, tickers):
+        high_returns = data[data['Daily Return'] > threshold]
+        low_returns = data[data['Daily Return'] < -threshold]
+
+        # Plot high and low returns
+        plt.figure(figsize=(10, 6))
+        plt.plot(data['Daily Return'],  label=f'{ticker} Daily Returns')
+        plt.scatter(high_returns.index, high_returns['Daily Return'], color='green', label='High Returns', zorder=5)
+        plt.scatter(low_returns.index, low_returns['Daily Return'], color='red', label='Low Returns', zorder=5)
+        plt.title(f'{ticker}Days with Unusually High/Low Returns')
+        plt.xlabel('Date')
+        plt.ylabel('Daily Return (%)')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+
+        print(f"{ticker}High Returns for:")
+        print(high_returns[['Daily Return']])
+        print("\n")
+        
+        print(f"{ticker}Low Returns for:")
+        print(low_returns[['Daily Return']])
+        print("\n")
