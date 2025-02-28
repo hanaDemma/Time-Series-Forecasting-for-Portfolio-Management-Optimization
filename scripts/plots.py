@@ -168,3 +168,24 @@ def remove_outliers(stockData, tickers, threshold=3):
 
     return cleaned_data
 
+
+
+def calc_daily_return(stockData,tickers):
+    for data, ticker in zip(stockData, tickers):
+        data['Daily Return'] = data['Adj Close'].pct_change() * 100 
+        data.dropna(inplace=True)
+
+def plot_daily_percentage(stockData, tickers):
+    for data, ticker in zip(stockData, tickers):
+        plt.figure(figsize=(10, 6))
+        plt.plot(data.index, data['Daily Return'], label=f'{ticker} Daily Returns')
+        
+        plt.title(f'{ticker} Daily Percentage Change')
+        plt.xlabel('Date')
+        plt.ylabel('Daily Return (%)')
+        plt.legend()
+        plt.grid(True)
+
+        # Format the x-axis to show readable dates
+        plt.xticks(rotation=45)  # Rotate labels for better readability
+        plt.show()
