@@ -49,7 +49,7 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 └── requirements.txt
 
 ## Features
-- ✅ Data Extraction: Pulling historical financial data using the yFinance Python library for:
+✅ Data Extraction: Pulling historical financial data using the yFinance Python library for:
 
 - TSLA: High volatility and potential high returns
 
@@ -57,7 +57,7 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 
 - SPY: Diversified, moderate-risk market exposure
 
-- 🔍 Data Cleaning & Understanding:
+🔍 Data Cleaning & Understanding:
 
 - Checking basic statistics to understand data distribution
 
@@ -65,7 +65,7 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 
 - Normalizing or scaling data if required
 
-- 📊 Exploratory Data Analysis (EDA):
+📊 Exploratory Data Analysis (EDA):
 
 - Visualizing closing prices over time to identify trends
 
@@ -75,7 +75,7 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 
 - Detecting outliers and identifying anomalies in returns
 
-- 📆 Seasonality & Trends Analysis:
+📆 Seasonality & Trends Analysis:
 
 - Decomposing the time series into trend, seasonal, and residual components using statistical models
 
