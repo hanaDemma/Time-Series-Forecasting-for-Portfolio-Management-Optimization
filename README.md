@@ -35,7 +35,7 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 
 │   │── data_loader.py
 
-│   │── plotS.py
+│   │── plots.py
 
 │── src/
 
@@ -49,10 +49,10 @@ TIME-SERIES-FORECASTING-FOR-PORTFOLIO-MANAGEMENT-OPTIMIZATION/
 
 ## Features
 
-✅ **Data Extraction**: Pulling historical financial data using the yFinance Python library.
-📈 **Exploratory Data Analysis (EDA)**: Analyzing trends, seasonality, volatility, and other key indicators.
-🕒 **Time Series Forecasting Models**: Building ARIMA, SARIMA, and LSTM models to predict future trends.
-⚛ **Portfolio Optimization**: Using forecasted data to rebalance a sample portfolio of assets.
+- ✅ **Data Extraction**: Pulling historical financial data using the yFinance Python library.
+- 📈 **Exploratory Data Analysis (EDA)**: Analyzing trends, seasonality, volatility, and other key indicators.
+- 🕒 **Time Series Forecasting Models**: Building ARIMA, SARIMA, and LSTM models to predict future trends.
+- ⚛ **Portfolio Optimization**: Using forecasted data to rebalance a sample portfolio of assets.
 
 ## Technologies Used
 
@@ -73,18 +73,23 @@ yfinance
 
 - scikit-learn
 
+
+## Installation
+
+
 1️⃣ Clone the repository
-- To set up the project on your local machine, follow these steps:
+To set up the project on your local machine, follow these steps:
+
+
+1. Clone the repository:
    ```bash
-   git clone https://github.com/hanaDemma/Time-Series-Forecasting-for-Portfolio-Management-Optimization.git
+   https://github.com/hanaDemma/Time-Series-Forecasting-for-Portfolio-Management-Optimization
+2. Navigate into the project directory:
+   ```bash
+   cd Change_point_analysis_and_statistical_modelling
 
-2️⃣ Navigate into the project directory
-
-   - ```bash
-cd Time-Series-Forecasting-for-Portfolio-Management-Optimization
-
-3️⃣ Install the required dependencies
-   - ```bash
+3. Install the required dependencies:
+   ```bash
    pip install -r requirements.txt
 
 
