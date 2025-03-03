@@ -268,4 +268,41 @@ def calculate_returns(df):
     }
     return annual_returns
 
+def portfolio_annual_return(df):
+    weights = [0.5, 0.3, 0.2]
+    weighted_daily_return = (weights[0] * df['TSLA_daily_return'] + 
+                            weights[1] * df['BND_daily_return'] + 
+                            weights[2] * df['SPY_daily_return'])
 
+    # Calculate annualized portfolio return (assuming 252 trading days in a year)
+    portfolio_annual_return = (1 + weighted_daily_return.mean())**252 - 1
+    return portfolio_annual_return
+
+
+def optimal_portfolio_no_sharpe(expected_returns,cov_matrix,df):
+    # Define the objective function to minimize (negative return)
+    def negative_return(weights):
+        portfolio_return = np.dot(weights, expected_returns)
+        return -portfolio_return  # Maximizing raw return
+
+    # Constraints and bounds for optimization
+    constraints = {'type': 'eq', 'fun': lambda x: np.sum(x) - 1}  # Weights sum to 1
+    bounds = tuple((0, 1) for _ in range(len(expected_returns)))  # Weights between 0 and 1
+
+    # Initial guess for weights
+    initial_weights = [1 / len(expected_returns)] * len(expected_returns)
+
+    # Optimize weights to maximize portfolio return
+    optimized = sco.minimize(negative_return, initial_weights, constraints=constraints, bounds=bounds)
+    optimal_weights = optimized.x
+
+    # Calculate the weighted daily return using the optimized weights
+    weighted_daily_return = (optimal_weights[0] * df['TSLA_daily_return'] + 
+                            optimal_weights[1] * df['BND_daily_return'] + 
+                            optimal_weights[2] * df['SPY_daily_return'])
+
+    # Calculate annualized portfolio return (assuming 252 trading days in a year)
+    portfolio_annual_return = (1 + weighted_daily_return.mean())**252 - 1
+
+    # Display optimized weights and annual return
+    return optimal_weights, portfolio_annual_return
