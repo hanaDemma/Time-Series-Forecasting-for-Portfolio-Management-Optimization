@@ -240,3 +240,30 @@ def merge_data(stockData):
     df = df.sort_values('Date').reset_index(drop=True)
 
     return df
+
+
+def calculate_returns(df):
+    # Calculate daily returns for each asset
+    df['TSLA_daily_return'] = df['TSLA'].pct_change()
+    df['BND_daily_return'] = df['BND'].pct_change()
+    df['SPY_daily_return'] = df['SPY'].pct_change()
+
+    # Calculate the average daily return for each asset
+    avg_daily_return_tsla = df['TSLA_daily_return'].mean()
+    avg_daily_return_bnd = df['BND_daily_return'].mean()
+    avg_daily_return_spy = df['SPY_daily_return'].mean()
+
+    # Compound the average daily returns to annualize them
+    trading_days_per_year = 252  # Typically 252 trading days in a year
+
+    annual_return_tsla = (1 + avg_daily_return_tsla) ** trading_days_per_year - 1
+    annual_return_bnd = (1 + avg_daily_return_bnd) ** trading_days_per_year - 1
+    annual_return_spy = (1 + avg_daily_return_spy) ** trading_days_per_year - 1
+
+    # Display the annual returns
+    annual_returns = {
+        'TSLA': annual_return_tsla,
+        'BND': annual_return_bnd,
+        'SPY': annual_return_spy
+    }
+    return annual_returns
