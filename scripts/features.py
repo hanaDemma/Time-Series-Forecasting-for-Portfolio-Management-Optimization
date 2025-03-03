@@ -217,3 +217,26 @@ def forecast(stockData, results,name):
     plot_forecasts_vs_actual(results, stockData,name)   
     summarize_model_performance(results, stockData,name)
 
+
+def reset_index(stockData):
+    stockData['tesla']=stockData['tesla'].reset_index()
+    stockData['bond']=stockData['bond'].reset_index()
+    stockData['spy']=stockData['spy'].reset_index()
+
+    return stockData
+
+
+def merge_data(stockData):
+    # Rename the 'Close' columns to the respective asset names
+    tsla_df = stockData['tesla'].rename(columns={'Close': 'TSLA'})
+    bnd_df = stockData['bond'].rename(columns={'Close': 'BND'})
+    spy_df = stockData['spy'].rename(columns={'Close': 'SPY'})
+
+    # Merge the DataFrames on 'Date'
+    df = tsla_df[['Date', 'TSLA']].merge(bnd_df[['Date', 'BND']], on='Date', how='outer')
+    df = df.merge(spy_df[['Date', 'SPY']], on='Date', how='outer')
+
+    # Sort by Date if needed
+    df = df.sort_values('Date').reset_index(drop=True)
+
+    return df
