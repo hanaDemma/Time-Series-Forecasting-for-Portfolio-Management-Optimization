@@ -326,3 +326,16 @@ def correlation_returns(daily_returns):
     plt.xticks(rotation=45)
     plt.yticks(rotation=45)
     plt.show()
+
+
+def covariance_returns(daily_returns):
+    # Calculate the covariance matrix
+    cov_matrix = daily_returns.cov()
+
+
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cov_matrix, annot=True, fmt=".8f", cmap='coolwarm', square=True, cbar_kws={"shrink": .8})
+    plt.title('Covariance Matrix Heatmap')
+    plt.xticks(rotation=45)
+    plt.yticks(rotation=45)
+    plt.show()

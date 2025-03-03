@@ -267,3 +267,5 @@ def calculate_returns(df):
         'SPY': annual_return_spy
     }
     return annual_returns
+
+
