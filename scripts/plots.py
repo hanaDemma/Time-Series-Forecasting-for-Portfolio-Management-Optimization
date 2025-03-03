@@ -313,3 +313,16 @@ def varAndSharpeRatio(stockData, tickers):
     print("\nSharpe Ratios:")
     for ticker, value in Sharpe_ratios.items():
         print(f"{ticker}: {value:.4f}")
+
+
+def correlation_returns(daily_returns):
+    # Calculate the correlation matrix
+    corr_matrix = daily_returns.corr()
+
+    # Plotting the correlation matrix heatmap
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm', square=True, cbar_kws={"shrink": .8})
+    plt.title('Correlation Matrix Heatmap')
+    plt.xticks(rotation=45)
+    plt.yticks(rotation=45)
+    plt.show()
