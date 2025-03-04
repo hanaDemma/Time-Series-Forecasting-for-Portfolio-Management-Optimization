@@ -339,3 +339,13 @@ def covariance_returns(daily_returns):
     plt.xticks(rotation=45)
     plt.yticks(rotation=45)
     plt.show()
+
+def daily_plot_VaR(df,var_Tesla):
+    plt.figure(figsize=(10, 6))
+    plt.hist(df['TSLA_daily_return'].dropna(), bins=50, color='blue', edgecolor='black', alpha=0.7)
+    plt.axvline(var_Tesla, color='red', linestyle='dashed', linewidth=2, label=f'VaR (95%): {var_Tesla:.4f}')
+    plt.title("Tesla's Daily Returns Distribution with VaR at 95% Confidence")
+    plt.xlabel('Daily Return')
+    plt.ylabel('Frequency')
+    plt.legend()
+    plt.show()
