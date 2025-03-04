@@ -380,8 +380,41 @@ def montecarlo_simulation(df,mean_returns,cov_matrix,optimized_weights):
 
     # Plot the simulated portfolio returns
     plt.figure(figsize=(10, 6))
-    plt.plot(simulated_portfolios.T, color='blue', alpha=0.1)
+    plt.plot(simulated_portfolios.T, color='skyblue', alpha=0.1)
     plt.title('Monte Carlo Simulation: Simulated Portfolio Performance')
     plt.xlabel('Days')
     plt.ylabel('Portfolio Daily Return')
+    plt.show()
+
+      # Calculate the cumulative return for each simulation to see the total portfolio growth over time
+    cumulative_returns = np.cumsum(simulated_portfolios, axis=1)
+
+    # Plot the cumulative returns to visualize portfolio growth over time
+    plt.figure(figsize=(10, 6))
+    plt.plot(cumulative_returns.T, color='skyblue', alpha=0.1)
+    plt.title('Monte Carlo Simulation: Cumulative Portfolio Return')
+    plt.xlabel('Days')
+    plt.ylabel('Cumulative Portfolio Return')
+    plt.show()
+
+
+
+def cumulative_returns_indiv_assets(df, weighted_daily_return):
+    cumulative_returns = (1 + weighted_daily_return).cumprod()
+    cumulative_returns_TESLA = (1 + df['TSLA_daily_return']).cumprod()
+    cumulative_returns_BND = (1 + df['BND_daily_return']).cumprod()
+    cumulative_returns_SPY = (1 + df['SPY_daily_return']).cumprod()
+
+    # Plot cumulative returns
+    plt.figure(figsize=(10, 6))
+    plt.plot(cumulative_returns, label="Optimized Portfolio", color='skyblue')
+    plt.plot(cumulative_returns_TESLA, label="Tesla (TSLA)", color='gray')
+    plt.plot(cumulative_returns_BND, label="Bond (BND)", color='green')
+    plt.plot(cumulative_returns_SPY, label="S&P 500 (SPY)", color='orange')
+
+    plt.title("Cumulative Returns of Portfolio and Individual Assets")
+    plt.xlabel("Days")
+    plt.ylabel("Cumulative Return")
+    plt.legend(loc="upper left")
+    plt.grid(True)
     plt.show()
