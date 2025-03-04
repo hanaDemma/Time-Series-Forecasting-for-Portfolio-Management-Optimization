@@ -349,3 +349,39 @@ def daily_plot_VaR(df,var_Tesla):
     plt.ylabel('Frequency')
     plt.legend()
     plt.show()
+
+
+
+def daily_annual_sharpe_ratio(sharpe_ratios):
+    # Plot the Sharpe ratios
+    plt.figure(figsize=(8, 5))
+    plt.bar(sharpe_ratios.keys(), sharpe_ratios.values(), color=['coral', 'skyblue'])
+    plt.title("Comparison of Daily and Annualized Sharpe Ratios")
+    plt.ylabel("Sharpe Ratio")
+    plt.ylim(0, max(sharpe_ratios.values()) * 1.2)
+    plt.show()
+
+
+
+def montecarlo_simulation(df,mean_returns,cov_matrix,optimized_weights):
+    dataset_size = len(df)  # Number of rows (days) in your dataset
+    num_days = len(df)  # The number of data points (days) in the dataset
+
+    num_simulations = min(1000, int(dataset_size / 10))
+
+    simulated_portfolios = np.zeros((num_simulations, num_days))
+
+    for i in range(num_simulations):
+        # Generate random returns for each asset (TSLA, BND, SPY)
+        random_returns = np.random.multivariate_normal(mean_returns, cov_matrix, num_days)
+        
+        # Calculate the portfolio returns for each day (weighted sum of returns)
+        simulated_portfolios[i] = np.dot(random_returns, optimized_weights)
+
+    # Plot the simulated portfolio returns
+    plt.figure(figsize=(10, 6))
+    plt.plot(simulated_portfolios.T, color='blue', alpha=0.1)
+    plt.title('Monte Carlo Simulation: Simulated Portfolio Performance')
+    plt.xlabel('Days')
+    plt.ylabel('Portfolio Daily Return')
+    plt.show()
