@@ -459,3 +459,4 @@ def portfolio_calculations(df):
 
     return optimized_results, mean_returns, optimized_weights
 
+

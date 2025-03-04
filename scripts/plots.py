@@ -438,3 +438,32 @@ def cumulative_returns_indiv_assets(df, weighted_daily_return):
     plt.legend(loc="upper left")
     plt.grid(True)
     plt.show()
+
+
+
+def risk_return_analysis(df, mean_returns, average_portfolio_return, portfolio_volatility):
+    # Plot Risk vs Return for the assets and portfolio
+    returns = [mean_returns['TSLA_daily_return'], mean_returns['BND_daily_return'], mean_returns['SPY_daily_return'], average_portfolio_return]
+    volatility = [df['TSLA_daily_return'].std(), df['BND_daily_return'].std(), df['SPY_daily_return'].std(), portfolio_volatility]
+
+    plt.figure(figsize=(10, 6))
+
+    # Scatter plot for individual assets with separate colors and labels
+    plt.scatter(volatility[0], returns[0], color='skyblue', label='Tesla', s=100)
+    plt.scatter(volatility[1], returns[1], color='green', label='Bond', s=100)
+    plt.scatter(volatility[2], returns[2], color='orange', label='SPY', s=100)
+
+    # Scatter plot for the optimized portfolio
+    plt.scatter(portfolio_volatility, average_portfolio_return, color='blue', label="Optimized Portfolio", marker='x', s=100)
+
+    # Add labels and legend
+    for i, txt in enumerate(['TSLA', 'BND', 'SPY', 'Portfolio']):
+        plt.annotate(txt, (volatility[i], returns[i]), textcoords="offset points", xytext=(0,10), ha='center')
+
+    plt.title("Risk vs Return Analysis")
+    plt.xlabel("Volatility (Risk)")
+    plt.ylabel("Expected Return")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
