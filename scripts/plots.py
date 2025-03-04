@@ -418,3 +418,23 @@ def cumulative_returns_indiv_assets(df, weighted_daily_return):
     plt.legend(loc="upper left")
     plt.grid(True)
     plt.show()
+
+def cumulative_returns_indiv_assets(df, weighted_daily_return):
+    cumulative_returns = (1 + weighted_daily_return).cumprod()
+    cumulative_returns_TESLA = (1 + df['TSLA_daily_return']).cumprod()
+    cumulative_returns_BND = (1 + df['BND_daily_return']).cumprod()
+    cumulative_returns_SPY = (1 + df['SPY_daily_return']).cumprod()
+
+    # Plot cumulative returns
+    plt.figure(figsize=(10, 6))
+    plt.plot(cumulative_returns, label="Optimized Portfolio", color='skyblue')
+    plt.plot(cumulative_returns_TESLA, label="Tesla (TSLA)", color='red')
+    plt.plot(cumulative_returns_BND, label="Bond (BND)", color='green')
+    plt.plot(cumulative_returns_SPY, label="S&P 500 (SPY)", color='orange')
+
+    plt.title("Cumulative Returns of Portfolio and Individual Assets")
+    plt.xlabel("Days")
+    plt.ylabel("Cumulative Return")
+    plt.legend(loc="upper left")
+    plt.grid(True)
+    plt.show()
